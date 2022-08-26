@@ -1,3 +1,4 @@
+//Geeks for Geeks problem
 struct Node* reverse (struct Node *head) {
     Node *curr = head;
     Node *next = NULL;
