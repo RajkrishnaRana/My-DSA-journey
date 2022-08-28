@@ -144,3 +144,73 @@ class Solution
         
     }
 };
+
+//without using map space complexity = O(1)
+private:
+    void insertAtTail (Node *&head, Node *&tail, int data) {
+        Node *temp = new Node (data);
+        if (head == NULL) {
+            head = temp;
+            tail = temp;
+            return;
+        }
+        else {
+            tail -> next = temp;
+            tail = temp;
+        }
+    }
+    
+    public:
+    Node *copyList(Node *head)
+    {
+        Node *cloneHead = NULL;
+        Node *cloneTail = NULL;
+        Node *originalNode = head;
+        
+        
+        while (originalNode != NULL) {
+            insertAtTail(cloneHead, cloneTail, originalNode -> data);
+            originalNode = originalNode -> next;
+        }
+        
+        Node *cloneNode = cloneHead;
+        originalNode = head;
+        Node *next = NULL;
+        while (originalNode != NULL) {
+            next = originalNode -> next;
+            originalNode -> next = cloneNode;
+            originalNode = next;
+            
+            next = cloneNode -> next;
+            cloneNode -> next = originalNode;
+            cloneNode = next;  
+        }
+        
+        originalNode = head;
+        while (originalNode != NULL) {
+            if (originalNode -> next != NULL) {
+                originalNode -> next -> arb = originalNode -> arb ? 
+                originalNode -> arb -> next : originalNode -> arb;
+                
+                // if (originalNode -> arb != NULL) 
+                //     originalNode -> next -> arb = originalNode -> arb -> next;
+                // else
+                //     originalNode -> next = originalNode -> arb;
+            }
+            originalNode = originalNode -> next -> next;
+        }
+        
+        cloneNode = cloneHead;
+        originalNode = head;
+        //next = NULL;
+        while (originalNode != NULL) {
+            originalNode -> next = cloneNode -> next;
+            originalNode = originalNode -> next;
+            
+            if (originalNode != NULL)
+            cloneNode -> next = originalNode -> next;
+            cloneNode = cloneNode -> next;
+        }
+        return cloneHead;
+    }
+
